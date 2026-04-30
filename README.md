@@ -37,8 +37,6 @@ Defined SAS library pointing to project directory
 Imported CSV using PROC IMPORT with GETNAMES=YES
 Validated row count and column structure via PROC CONTENTS
 
-📊 View Output
-
 ### Module 2 — Data Cleaning & Standardization
 Objective: Produce a clean, analysis-ready staging table from raw import with consistent formats and no duplicates.
 Input: raw.provider_claims
@@ -50,8 +48,6 @@ Derived amt from Average_Medicare_Payment_Amount as numeric payment column
 Standardized character fields and validated missing value counts via PROC MEANS NMISS
 Retained all 27 columns for full analytical lineage
 
-📊 View Output
-
 ### Module 3 — Provider Master Build
 Objective: Create an NPI-level enriched provider dimension with specialty grouping, payment deciles, and outlier flags for downstream joins.
 Input: raw.provider_staging
@@ -62,8 +58,6 @@ Aggregated total services, beneficiaries, and payment per NPI
 Grouped raw specialty descriptions into broad specialty_group categories
 Applied PROC RANK groups=10 to decile providers by total payment
 Flagged high-value providers (decile 10) and statistical outliers (±2 SD)
-
-📊 View Output
 
 ### Module 4 — Claims Master Build
 Objective: Build the most granular analytical table combining claims variance, procedure-level metrics, and provider attributes at NPI+HCPCS grain.
@@ -78,8 +72,6 @@ Built HCPCS-level procedure summary (raw.hcpcs_summary) with charge-to-payment r
 Computed cumulative services per NPI using RETAIN in a DATA step
 Final join across claims variance, provider master, and utilization using LEFT JOIN
 
-📊 View Output
-
 ### Module 5 — Geographic Analysis
 Objective: Quantify payment behavior across US states and Census regions to support geographic audit prioritization.
 Input: raw.provider_staging
@@ -93,8 +85,6 @@ Anomaly detection: states beyond ±2 standard deviations marked as 'Anomaly'
 Mapped states to US Census regions using PROC FORMAT $regfmt.
 Regional rollup into raw.geo_reg_summary for executive-level comparison
 
-📊 View Output
-
 ### Module 6 — Payer Variance Analysis
 Objective: Compare Medicare payment behavior between individual providers (Type 1 NPI) and organizational providers (Type 2 NPI).
 Input: raw.provider_staging
@@ -105,5 +95,3 @@ Aggregated total providers, services, beneficiaries, and payment by Entity_Type_
 Computed payment_index against overall national average via scalar subquery
 Applied variance flags: 'High' (>1.2), 'Low' (<0.8), 'Normal'
 Single PROC SQL step — no intermediate tables needed
-
-📊 View Output
